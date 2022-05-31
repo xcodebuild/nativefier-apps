@@ -32,6 +32,19 @@ jobs:
             zip -r kaiheila_macos_m1.zip *darwin-arm64
             zip -r kaiheila_macos_intel.zip *darwin-x64
             zip -r kaiheila_linux_x64.zip *linux*
+            
+            rm -rf *darwin-arm64/
+            rm -rf *darwin-x64/
+            rm -rf *linux*/
+            
+            nativefier 'https://www.inoreader.com' -a arm64 -p darwin
+            nativefier 'https://www.inoreader.com' -a x64 -p darwin
+            nativefier 'https://www.inoreader.com' -a x64 -p linux
+            nativefier 'https://www.inoreader.com' -a x64 -p windows
+            zip -r inoreader_macos_m1.zip *darwin-arm64
+            zip -r inoreader_macos_intel.zip *darwin-x64
+            zip -r inoreader_linux_x64.zip *linux*
+            zip -r inoreader_windows_x64.zip *windows*
 
         - name: upload kaiheila_macos_m1
           uses: actions/upload-artifact@v2
@@ -53,3 +66,31 @@ jobs:
             name: kaiheila_linux_x64
             path: |
               kaiheila_linux_x64.zip
+              
+        - name: upload inoreader_macos_m1
+          uses: actions/upload-artifact@v2
+          with:
+            name: inoreader_macos_m1
+            path: |
+              inoreader_macos_m1.zip
+              
+        - name: upload inoreader_macos_intel
+          uses: actions/upload-artifact@v2
+          with:
+            name: inoreader_macos_intel
+            path: |
+              inoreader_macos_intel.zip
+
+        - name: upload inoreader_linux_x64
+          uses: actions/upload-artifact@v2
+          with:
+            name: inoreader_linux_x64
+            path: |
+              inoreader_linux_x64.zip
+
+        - name: upload inoreader_windows_x64
+          uses: actions/upload-artifact@v2
+          with:
+            name: inoreader_windows_x64
+            path: |
+              inoreader_windows_x64.zip
