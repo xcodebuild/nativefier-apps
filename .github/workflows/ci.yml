@@ -26,9 +26,9 @@ jobs:
           shell: bash
           run: |
             npm install -g nativefier
-            nativefier 'https://www.kaiheila.cn/' -a arm64 -p darwin
-            nativefier 'https://www.kaiheila.cn/' -a x64 -p darwin
-            nativefier 'https://www.kaiheila.cn/' -a x64 -p linux
+            nativefier 'https://www.kaiheila.cn/' --name '开黑啦' -a arm64 -p darwin
+            nativefier 'https://www.kaiheila.cn/' --name '开黑啦' -a x64 -p darwin
+            nativefier 'https://www.kaiheila.cn/' --name '开黑啦' -a x64 -p linux
             zip -r kaiheila_macos_m1.zip *darwin-arm64
             zip -r kaiheila_macos_intel.zip *darwin-x64
             zip -r kaiheila_linux_x64.zip *linux*
@@ -37,10 +37,10 @@ jobs:
             rm -rf *darwin-x64/
             rm -rf *linux*/
             
-            nativefier 'https://www.inoreader.com' -a arm64 -p darwin
-            nativefier 'https://www.inoreader.com' -a x64 -p darwin
-            nativefier 'https://www.inoreader.com' -a x64 -p linux
-            nativefier 'https://www.inoreader.com' -a x64 -p windows
+            nativefier 'https://www.inoreader.com' --name Inoreader -a arm64 -p darwin
+            nativefier 'https://www.inoreader.com' --name Inoreader -a x64 -p darwin
+            nativefier 'https://www.inoreader.com' --name Inoreader -a x64 -p linux
+            nativefier 'https://www.inoreader.com' --name Inoreader -a x64 -p windows
             zip -r inoreader_macos_m1.zip *darwin-arm64
             zip -r inoreader_macos_intel.zip *darwin-x64
             zip -r inoreader_linux_x64.zip *linux*
