@@ -1,5 +1,4 @@
 name: ci
-
 on:
   push:
     branches:
@@ -11,7 +10,7 @@ jobs:
   build:
       strategy:
         matrix:
-          os: [macos-latest]
+          os: [macos-latest, windows-latest]
       runs-on: ${{ matrix.os }}
       steps:
         - name: Check out Git repository
@@ -22,66 +21,115 @@ jobs:
           with:
             node-version: 14
 
-        - name: build apps
+        - name: install deps
           shell: bash
           run: |
             npm install -g nativefier
-            nativefier 'https://www.kaiheila.cn/' --name '开黑啦' -a arm64 -p darwin
-            nativefier 'https://www.kaiheila.cn/' --name '开黑啦' -a x64 -p darwin
-            nativefier 'https://www.kaiheila.cn/' --name '开黑啦' -a x64 -p linux
-            zip -r kaiheila_macos_m1.zip *darwin-arm64
-            zip -r kaiheila_macos_intel.zip *darwin-x64
-            zip -r kaiheila_linux_x64.zip *linux*
-            
-            rm -rf *darwin-arm64/
-            rm -rf *darwin-x64/
-            rm -rf *linux*/
-            
-            nativefier 'https://www.inoreader.com' --name Inoreader -a arm64 -p darwin
-            nativefier 'https://www.inoreader.com' --name Inoreader -a x64 -p darwin
-            nativefier 'https://www.inoreader.com' --name Inoreader -a x64 -p linux
-            zip -r inoreader_macos_m1.zip *darwin-arm64
-            zip -r inoreader_macos_intel.zip *darwin-x64
-            zip -r inoreader_linux_x64.zip *linux*
 
-        - name: upload kaiheila_macos_m1
-          uses: actions/upload-artifact@v2
-          with:
-            name: kaiheila_macos_m1
-            path: |
-              kaiheila_macos_m1.zip
 
-        - name: upload kaiheila_macos_intel
-          uses: actions/upload-artifact@v2
-          with:
-            name: kaiheila_macos_intel
-            path: |
-              kaiheila_macos_intel.zip
+    - name: build apps
+      shell: bash
+      run: |
+      if [[ "$RUNNER_OS" == "macOS" ]]; then
+        nativefier 'https://kaiheila.cn/' --name '开黑啦' -a arm64 -p darwin
+        nativefier 'https://kaiheila.cn/' --name '开黑啦' -a x64 -p darwin
+        nativefier 'https://kaiheila.cn/' --name '开黑啦' -a x64 -p linux
+        zip -r 开黑啦_macos_arm.zip *darwin-arm64
+        zip -r 开黑啦_macos_x64.zip *darwin-x64
+        zip -r 开黑啦_linux_x64.zip *linux*
+        
+        rm -rf *darwin-arm64/
+        rm -rf *darwin-x64/
+        rm -rf *linux*/
+      fi
+      if [[ "$RUNNER_OS" == "Windows" ]]; then
+        nativefier 'https://kaiheila.cn/' --name '开黑啦' -a x64 -p windows
+        zip -r 开黑啦_windows_x64.zip *windows*/
+        rm -rf *windows*/
+      fi
 
-        - name: upload kaiheila_linux_x64
-          uses: actions/upload-artifact@v2
-          with:
-            name: kaiheila_linux_x64
-            path: |
-              kaiheila_linux_x64.zip
-              
-        - name: upload inoreader_macos_m1
-          uses: actions/upload-artifact@v2
-          with:
-            name: inoreader_macos_m1
-            path: |
-              inoreader_macos_m1.zip
-              
-        - name: upload inoreader_macos_intel
-          uses: actions/upload-artifact@v2
-          with:
-            name: inoreader_macos_intel
-            path: |
-              inoreader_macos_intel.zip
 
-        - name: upload inoreader_linux_x64
-          uses: actions/upload-artifact@v2
-          with:
-            name: inoreader_linux_x64
-            path: |
-              inoreader_linux_x64.zip
+    - name: upload 开黑啦_macos_arm64
+      uses: actions/upload-artifact@v2
+      with:
+        name: 开黑啦_macos_arm64
+        path: |
+          开黑啦_macos_arm64.zip
+
+
+    - name: upload 开黑啦_macos_x64
+      uses: actions/upload-artifact@v2
+      with:
+        name: 开黑啦_macos_x64
+        path: |
+          开黑啦_macos_x64.zip
+
+
+    - name: upload 开黑啦_linux_x64
+      uses: actions/upload-artifact@v2
+      with:
+        name: 开黑啦_linux_x64
+        path: |
+          开黑啦_linux_x64.zip
+
+
+    - name: upload 开黑啦_windows_x64
+      uses: actions/upload-artifact@v2
+      with:
+        name: 开黑啦_windows_x64
+        path: |
+          开黑啦_windows_x64.zip
+
+
+    - name: build apps
+      shell: bash
+      run: |
+      if [[ "$RUNNER_OS" == "macOS" ]]; then
+        nativefier 'https://www.inoreader.com' --name 'Inoreader' -a arm64 -p darwin
+        nativefier 'https://www.inoreader.com' --name 'Inoreader' -a x64 -p darwin
+        nativefier 'https://www.inoreader.com' --name 'Inoreader' -a x64 -p linux
+        zip -r Inoreader_macos_arm.zip *darwin-arm64
+        zip -r Inoreader_macos_x64.zip *darwin-x64
+        zip -r Inoreader_linux_x64.zip *linux*
+        
+        rm -rf *darwin-arm64/
+        rm -rf *darwin-x64/
+        rm -rf *linux*/
+      fi
+      if [[ "$RUNNER_OS" == "Windows" ]]; then
+        nativefier 'https://www.inoreader.com' --name 'Inoreader' -a x64 -p windows
+        zip -r Inoreader_windows_x64.zip *windows*/
+        rm -rf *windows*/
+      fi
+
+
+    - name: upload Inoreader_macos_arm64
+      uses: actions/upload-artifact@v2
+      with:
+        name: Inoreader_macos_arm64
+        path: |
+          Inoreader_macos_arm64.zip
+
+
+    - name: upload Inoreader_macos_x64
+      uses: actions/upload-artifact@v2
+      with:
+        name: Inoreader_macos_x64
+        path: |
+          Inoreader_macos_x64.zip
+
+
+    - name: upload Inoreader_linux_x64
+      uses: actions/upload-artifact@v2
+      with:
+        name: Inoreader_linux_x64
+        path: |
+          Inoreader_linux_x64.zip
+
+
+    - name: upload Inoreader_windows_x64
+      uses: actions/upload-artifact@v2
+      with:
+        name: Inoreader_windows_x64
+        path: |
+          Inoreader_windows_x64.zip
