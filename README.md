@@ -3,8 +3,9 @@ Build apps with nativefier &amp; github actions
 
 ## App List
 
-- 开黑啦：kaiheila.cn/
+- 开黑啦：https://kaiheila.cn
 - inoreader: https://www.inoreader.com
+- flomo: https://flomoapp.com
 
 ## Download
 
