@@ -44,12 +44,20 @@ jobs:
             zip -r inoreader_macos_intel.zip *darwin-x64
             zip -r inoreader_linux_x64.zip *linux*
 
+            rm -rf *darwin-arm64/
+            rm -rf *darwin-x64/
+            rm -rf *linux*/
+
             nativefier 'https://flomoapp.com/' --name flomo -a arm64 -p darwin
             nativefier 'https://flomoapp.com/' --name flomo -a x64 -p darwin
             nativefier 'https://flomoapp.com/' --name flomo -a x64 -p linux
             zip -r flomo_macos_m1.zip *darwin-arm64
             zip -r flomo_macos_intel.zip *darwin-x64
             zip -r flomo_linux_x64.zip *linux*
+
+            rm -rf *darwin-arm64/
+            rm -rf *darwin-x64/
+            rm -rf *linux*/
 
         - name: upload kaiheila_macos_m1
           uses: actions/upload-artifact@v2
